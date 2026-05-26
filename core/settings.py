@@ -1,4 +1,5 @@
 import sys
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -29,7 +30,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',  # Crucial for serving React files on Render
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -43,7 +44,8 @@ ROOT_URLCONF = 'core.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        # Tells Django exactly where to find Vite React's index.html template file
+        'DIRS': [BASE_DIR / 'frontend' / 'dist'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -57,12 +59,12 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'core.wsgi.application'
 
-# Dynamic Database Router: Detects production server processes (Render/Gunicorn) 
-# and safely spins up an isolated, high-performance in-memory DB fallback.
+# FIXED DATABASE CONFIGURATION: Use a persistent file database on disk 
+# instead of volatile RAM memory arrays that erase data on every request loop.
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': ':memory:' if 'render' in sys.argv or 'gunicorn' in sys.argv else BASE_DIR / 'db.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
 
@@ -73,7 +75,13 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_TZ = True
 
+# Static Files Configurations (Wired up to compile and distribute Vite components)
 STATIC_URL = 'static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
+
+# Tells WhiteNoise and Django to index Vite assets compiled by npm run build
+STATICFILES_DIRS = [
+    BASE_DIR / 'frontend' / 'dist',
+]
 
 CORS_ALLOW_ALL_ORIGINS = True
