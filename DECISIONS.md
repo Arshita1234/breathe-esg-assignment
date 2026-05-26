@@ -1,6 +1,5 @@
- # Architectural & Technology Decisions
+# Architectural Decisions
 
-### 1. Framework Choices
-* **Django & Python**: Chosen for rapid implementation of secure, rock-solid relational database operations and out-of-the-box data safety handling.
-* **Django REST Framework (DRF)**: Chosen to establish a clean, decoupled JSON web API tier capable of expanding into robust programmatic integrations easily.
-* **React & Vite**: Selected to deliver high-performance user interface experiences, ensuring asynchronous operational audit table overrides feel completely seamless to carbon accountants.
+1. **SAP Ingestion Format:** Handled as flat-file extracts (CSV), assuming custom enterprise processing paths where unit fields vary wildly (e.g., Liters vs Gallons).
+2. **Utility Processing:** Modeled as portal CSV data downloads. This bypasses inconsistent calendar-month alignment using calculated pro-rata date distributions.
+3. **Travel Telemetry:** Navigated corporate travel tracking via individual platform API chunks, converting IATA flight segments directly into unified distance footprints.

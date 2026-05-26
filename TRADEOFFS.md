@@ -1,9 +1,5 @@
- # Development Trade-offs & Future Roadmaps
+# Deliberate Trade-offs
 
-### Current Prototype State
-* **Database Target**: Localized SQLite footprint was utilized over a production-heavy PostgreSQL or MySQL cloud cluster. This minimized configuration overhead during development and facilitated immediate pipeline evaluation testing.
-* **Authentication**: Multi-tenancy is demonstrated programmatically via query param matching logic for simplicity, rather than implementing complex JSON Web Token (JWT) identity authorization providers upfront.
-
-### Production Next Steps
-1. Transition data storages directly to an enterprise PostgreSQL engine.
-2. Implement rigid Role-Based Access Control (RBAC) across data ingestion keys.
+1. **Automated PDF Scraping:** Opted for structural parsing of database-friendly portal inputs over complex OCR scraping for electricity bills.
+2. **Live Third-Party API Key Integrations:** Simulated the travel platform API integration layer using localized payloads instead of relying on external OAuth pipelines.
+3. **Granular User Permission Role Trees:** Enforced row locking states at the database ledger level, but left out extensive role-based access control (RBAC) permission logic.

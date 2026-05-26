@@ -1,8 +1,10 @@
-# Database Entity-Relationship Architecture
+# Data Model Architecture
 
-The backend implements a highly scalable normalized database layout to enforce rigid carbon accounting data integrity and absolute multi-tenant tracking separation.
+### Multi-Tenant Isolation
+Every record tracks a strict `Tenant` ForeignKey. This ensures absolute separation of corporate perimeters at the root entity layer, preventing any data cross-contamination between different client operations.
 
-### Core Architecture Design
-* **Tenant**: Manages corporate perimeter isolation, ensuring customer organizational datasets never mix on network queries.
-* **IngestionBatch**: Provides comprehensive data lineage tracking back to the ingestion mechanism (SAP Flat Files, Utility Portals, or API payloads).
-* **ActivityLog**: The core audit register tracking the actual greenhouse gas records, their scope categorization (Scope 1, 2, or 3), and metadata alert flags (`flags_meta`). 
+### Data Lineage & Scope Tracking
+Data provenance is achieved by routing all raw inputs through an `IngestionBatch` mapping. This links entries back to their specific origin system (SAP, UTILITY, CONCUR). Individual rows map explicitly to Scope 1, 2, or 3 categories.
+
+### Unit Normalization Matrix
+To prevent unit mismatches, the model maintains original input values ('Liters', 'IATA_Segment') alongside a computed field `normalized_quantity_kwh`. This guarantees uniform downstream audit reporting.
