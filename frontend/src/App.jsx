@@ -5,7 +5,7 @@ export default function App() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const API_BASE = "http://127.0.0.1:8000/api/activities/";
+  const API_BASE = "https://breathe-esg-assignment-2pxp.onrender.com/api/activities/";
 
   const fetchDashboardData = () => {
     fetch(API_BASE)
