@@ -6,7 +6,9 @@ export default function App() {
   const [error, setError] = useState(null);
 
   // Production API Base URL Pointing to Deployed Render Instance
-  const API_BASE = "https://breathe-esg-assignment-2pxp.onrender.com/api/activities/";
+  const API_BASE = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1"
+  ? "http://127.0.0.1:8000/api/activities/"
+  : "/api/activities/"; // Relative path works automatically when hosted together on Render!
 
   const fetchDashboardData = () => {
     fetch(API_BASE)
